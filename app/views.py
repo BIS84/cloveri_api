@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from app.models import Element
+from app.models import Element, ElementManager
 from app.serializers import ElementSerializer
 from rest_framework import generics
 from rest_framework.views import APIView
@@ -33,6 +33,7 @@ class ElementView(APIView):
         })
     def delete(self, request, pk):
         element = get_object_or_404(Element.objects.all(), pk = pk)
+        element.children_list_delete()
         element.delete()
         return Response({
             "message": "Element'{}' has been deleted".format(pk)
